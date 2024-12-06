@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Fullscreen Example</title>
+  <style>
+    video {
+      width: 100%;
+      display: none; /* Video ẩn khi trang tải */
+      margin: 0 auto;
+      pointer-events: none; /* Tắt tương tác với video */
+    }
+
+    /* Ẩn video khi ở chế độ toàn màn hình */
+    video.fullscreen {
+      display: none;
+    }
+
+    /* Kiểm soát khi video ở chế độ toàn màn hình */
+    video:fullscreen {
+      pointer-events: none; /* Tắt tương tác trong chế độ toàn màn hình */
+    }
+
+    /* Nếu bạn muốn video hiển thị lại khi ra khỏi chế độ toàn màn hình */
+    video:not(:fullscreen) {
+      pointer-events: auto; /* Kích hoạt tương tác khi không ở chế độ toàn màn hình */
+    }
+  </style>
+</head>
+<body>
+  <video id="myVideo" muted>
+    <source src="ABEv8KN2v.mp4" type="video/mp4">
+    Trình duyệt của bạn không hỗ trợ thẻ video.
+  </video>
+
+  <script>
+    const video = document.getElementById('myVideo');
+
+    // Lắng nghe sự kiện phím
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'f' || event.key === 'F') {
+        toggleFullscreen();
+      }
+    });
+
+    // Toggle chế độ toàn màn hình và phát video
+    function toggleFullscreen() {
+      // Hiển thị video và phát khi nhấn phím F
+      video.style.display = 'block';
+      video.play();
+      
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        video.requestFullscreen();
+        video.classList.add('fullscreen');
+      }
+    }
+
+    // Khi vào hoặc thoát chế độ toàn màn hình
+    document.addEventListener('fullscreenchange', function() {
+      if (!document.fullscreenElement) {
+        // Hiển thị lại video khi thoát chế độ toàn màn hình
+        video.classList.remove('fullscreen');
+      }
+    });
+  </script>
+</body>
+</html>
